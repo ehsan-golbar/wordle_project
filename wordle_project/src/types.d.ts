@@ -1,5 +1,15 @@
-interface boardCells {
+type Colors = "green" | "yellow" | "gray" | "def";
+
+interface BoardCell {
   letter: string;
-  offset: number;
-  attemptNum: number;
+  colorState: Colors;
+}
+
+interface BoardCells {
+  board: BoardCell[];
+}
+
+interface Cursor {
+  row: number;
+  col: number;
 }
