@@ -1,14 +1,49 @@
 import { Button } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setColorState, setLetter } from "../store/slices/BoardCellsSlice";
 import { setAttempt } from "../store/slices/AttemptSlice";
 
 function Keyboard() {
-  const row1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-  const row2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-  const row3 = ["Delete", "Z", "X", "C", "V", "B", "N", "M", "Enter"];
+  // Updated rows with colorState: "def" added to each element
+
+  const [row1, setRow1] = useState<BoardCell[]>([
+    { letter: "Q", colorState: "def" },
+    { letter: "W", colorState: "def" },
+    { letter: "E", colorState: "def" },
+    { letter: "R", colorState: "def" },
+    { letter: "T", colorState: "def" },
+    { letter: "Y", colorState: "def" },
+    { letter: "U", colorState: "def" },
+    { letter: "I", colorState: "def" },
+    { letter: "O", colorState: "def" },
+    { letter: "P", colorState: "def" },
+  ]);
+
+  const [row2, setRow2] = useState<BoardCell[]>([
+    { letter: "A", colorState: "def" },
+    { letter: "S", colorState: "def" },
+    { letter: "D", colorState: "def" },
+    { letter: "F", colorState: "def" },
+    { letter: "G", colorState: "def" },
+    { letter: "H", colorState: "def" },
+    { letter: "J", colorState: "def" },
+    { letter: "K", colorState: "def" },
+    { letter: "L", colorState: "def" },
+  ]);
+
+  const [row3, setRow3] = useState<BoardCell[]>([
+    { letter: "Delete", colorState: "def" },
+    { letter: "Z", colorState: "def" },
+    { letter: "X", colorState: "def" },
+    { letter: "C", colorState: "def" },
+    { letter: "V", colorState: "def" },
+    { letter: "B", colorState: "def" },
+    { letter: "N", colorState: "def" },
+    { letter: "M", colorState: "def" },
+    { letter: "Enter", colorState: "def" },
+  ]);
 
   const dispatch: AppDispatch = useDispatch();
   const userAttempt = useSelector((state: RootState) => state.userAttempt);
@@ -16,7 +51,7 @@ function Keyboard() {
 
   const selectedWord = useSelector((state: RootState) => state.selectedWord);
 
-  const handleClick = (key: string) => {
+  const handleClick = (key: string, keyboardRow: number) => {
     const currentRow = userAttempt.row;
     const currentCol = userAttempt.col;
 
@@ -28,7 +63,9 @@ function Keyboard() {
         dispatch(setAttempt({ row: currentRow, col: currentCol - 1 }));
       }
     } else if (key === "Enter") {
+      let colorState: Colors | undefined = undefined;
       if (currentCol === 5) {
+        // const colorState : Colors = null;
         boardGame[currentRow].map((lett, index) => {
           if (selectedWord.charAt(index).toUpperCase() === lett.letter) {
             dispatch(
@@ -38,6 +75,12 @@ function Keyboard() {
                 colorState: "green",
               })
             );
+
+            setRow1((prevRow1) =>
+              prevRow1.map((cell) =>
+                cell.letter === key ? { ...cell, colorState: "green" } : cell
+              )
+            );
           } else if (selectedWord.includes(lett.letter.toLowerCase())) {
             dispatch(
               setColorState({
@@ -46,12 +89,33 @@ function Keyboard() {
                 colorState: "yellow",
               })
             );
+            colorState = "yellow";
           } else {
             dispatch(
               setColorState({ row: currentRow, col: index, colorState: "gray" })
             );
+
+            colorState = "gray";
           }
         });
+
+        // if (keyboardRow === 1) {
+        //   row1.map((item) => {
+        //     item.letter === key ? { ...item, colorState: colorState } : item;
+        //   });
+        //   console.log(row1);
+        // } else if (keyboardRow === 2) {
+        //   row2.map((item) => {
+        //     item.letter === key ? { ...item, colorState: colorState } : item;
+        //   });
+        //   console.log(row2);
+        // } else {
+        //   row3.map((item) => {
+        //     item.letter === key ? { ...item, colorState: colorState } : item;
+        //   });
+        //   console.log(row3);
+        // }
+
         dispatch(setAttempt({ row: currentRow + 1, col: 0 }));
       }
     } else {
@@ -68,6 +132,10 @@ function Keyboard() {
     }
   };
 
+  // useEffect(()=>{
+
+  // }, [])
+  // console.log(row1);
   return (
     <>
       <div className="col-span-3 grid grid-rows-3 gap-2 content-center items-center mr-6">
@@ -75,8 +143,19 @@ function Keyboard() {
           {row1.map((key, id) => {
             return (
               <div key={id}>
-                <Button color="white" onClick={() => handleClick(key)}>
-                  {key}
+                <Button
+                  color={
+                    key.colorState === "def"
+                      ? "white"
+                      : key.colorState === "green"
+                      ? "green"
+                      : key.colorState === "yellow"
+                      ? "yellow"
+                      : "red"
+                  }
+                  onClick={() => handleClick(key.letter, 1)}
+                >
+                  {key.letter}
                 </Button>
               </div>
             );
@@ -87,8 +166,11 @@ function Keyboard() {
           {row2.map((key, id) => {
             return (
               <div key={id}>
-                <Button color="white" onClick={() => handleClick(key)}>
-                  {key}
+                <Button
+                  color="white"
+                  onClick={() => handleClick(key.letter, 2)}
+                >
+                  {key.letter}
                 </Button>
               </div>
             );
@@ -103,8 +185,11 @@ function Keyboard() {
           {row3.map((key, id) => {
             return (
               <div className="flex justify-center items-center w-auto" key={id}>
-                <Button color="white" onClick={() => handleClick(key)}>
-                  {key}
+                <Button
+                  color="white"
+                  onClick={() => handleClick(key.letter, 3)}
+                >
+                  {key.letter}
                 </Button>
               </div>
             );
