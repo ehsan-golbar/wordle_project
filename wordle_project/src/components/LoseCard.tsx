@@ -11,7 +11,7 @@ function LoseCard() {
           <Typography variant="h5" color="blue-gray" className="mb-2">
             Sorry !
             <br />
-            The word was :{` ${selectedWord.toUpperCase()}`}
+            The word was {` ${selectedWord.toUpperCase()}`}
           </Typography>
         </CardBody>
       </Card>
