@@ -1,15 +1,20 @@
-type Colors = "green" | "yellow" | "gray" | "def";
+// type Colors = "green" | "yellow" | "gray" | "def";
 
-interface BoardCell {
-  letter: string;
-  colorState: Colors;
-}
+// interface BoardCell {
+//   letter: string;
+//   colorState: Colors;
+// }
 
-interface BoardCells {
-  board: BoardCell[];
-}
+// interface BoardCells {
+//   board: BoardCell[];
+// }
 
-interface Cursor {
+interface Attempt {
   row: number;
   col: number;
 }
+
+type BoardCell = {
+  letter: string;
+  colorState: string;
+};

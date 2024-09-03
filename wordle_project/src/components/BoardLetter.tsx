@@ -11,7 +11,7 @@ function BoardLetter(props: MyComponentProps) {
       <Chip
         value={props.val.letter}
         variant="ghost"
-        className=" justify-center p-4"
+        className=" justify-center h-12"
       ></Chip>
     </>
   );
