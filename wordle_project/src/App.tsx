@@ -5,11 +5,18 @@ import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
 import Header from "./components/Header";
 import { Button } from "@material-tailwind/react";
-import store from "./store/store";
-import { Provider } from "react-redux";
+import store, { RootState } from "./store/store";
+import { Provider, useSelector } from "react-redux";
+import WinCard from "./components/WinCard";
+import LoseCard from "./components/LoseCard";
 // import './App.css'
 
 function App() {
+  // const userAttempt = useSelector((state: RootState) => state.userAttempt);
+  // const boardGame = useSelector((state: RootState) => state.boardGame);
+
+  // const [result, setResult] = useState<boolean>(true);
+
   return (
     <>
       <Provider store={store}>

@@ -1,4 +1,4 @@
-import { Typography } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 
 function HeaderItem() {
   return (
@@ -9,12 +9,12 @@ function HeaderItem() {
         color="blue-gray"
         className="p-1 font-medium"
       >
-        <a
-          href="#"
+        <Button
+          variant="text"
           className="flex items-center hover:text-blue-500 transition-colors"
         >
           How to Play
-        </a>
+        </Button>
       </Typography>
       <Typography
         as="li"
@@ -22,12 +22,16 @@ function HeaderItem() {
         color="blue-gray"
         className="p-1 font-medium"
       >
-        <a
-          href="#"
+        <Button
+          // href="#"
+          variant="text"
           className="flex items-center hover:text-blue-500 transition-colors"
+          onClick={() => {
+            window.location.reload();
+          }}
         >
-          Your Rank
-        </a>
+          Start Again
+        </Button>
       </Typography>
       <Typography
         as="li"
@@ -35,12 +39,12 @@ function HeaderItem() {
         color="blue-gray"
         className="p-1 font-medium"
       >
-        <a
-          href="#"
+        <Button
+          variant="text"
           className="flex items-center hover:text-blue-500 transition-colors"
         >
           Help
-        </a>
+        </Button>
       </Typography>
       {/* <Typography
           as="li"

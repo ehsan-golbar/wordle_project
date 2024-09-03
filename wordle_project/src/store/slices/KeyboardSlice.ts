@@ -66,7 +66,9 @@ const keyboardSlice = createSlice({
       state.row1 = state.row1.map((cell) => {
         if (cell.letter.toUpperCase() === letter.toUpperCase()) {
           //   console.log("here");
+
           found = true;
+
           return { ...cell, colorState: newColorState };
         } else {
           return cell;
@@ -76,9 +78,14 @@ const keyboardSlice = createSlice({
       if (!found) {
         //   else if (rowIndex === 2) {
         state.row2 = state.row2.map((cell) => {
-          if (cell.letter.toUpperCase() === letter.toUpperCase()) {
+          if (
+            cell.letter.toUpperCase() === letter.toUpperCase()
+            // cell.colorState != "green"
+          ) {
             // console.log("here");
+            console.log(cell.colorState);
             found = true;
+
             return { ...cell, colorState: newColorState };
           } else {
             return cell;
@@ -87,8 +94,11 @@ const keyboardSlice = createSlice({
         //  else if (rowIndex === 3) {
         if (!found) {
           state.row3 = state.row3.map((cell) => {
-            if (cell.letter.toUpperCase() === letter.toUpperCase()) {
-              // console.log("here");
+            if (
+              cell.letter.toUpperCase() === letter.toUpperCase()
+              //   cell.colorState !== "green"
+            ) {
+              console.log(cell.colorState);
               return { ...cell, colorState: newColorState };
             } else {
               return cell;

@@ -1,5 +1,7 @@
 type Colors = "green" | "yellow" | "gray" | "def";
 
+type GameResult = "win" | "lose" | "process";
+
 // interface BoardCell {
 //   letter: string;
 //   colorState: Colors;
@@ -12,6 +14,7 @@ type Colors = "green" | "yellow" | "gray" | "def";
 interface Attempt {
   row: number;
   col: number;
+  resultOfGame: GameResult;
 }
 
 type BoardCell = {

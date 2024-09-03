@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setColorState, setLetter } from "../store/slices/BoardCellsSlice";
-import { setAttempt } from "../store/slices/AttemptSlice";
+import { setAttempt, setResult } from "../store/slices/AttemptSlice";
 import { updateKeyboardColor } from "../store/slices/KeyboardSlice";
+import WinCard from "./WinCard";
+import LoseCard from "./LoseCard";
 
 function Keyboard() {
   // Updated rows with colorState: "def" added to each element
@@ -33,6 +35,8 @@ function Keyboard() {
       }
     } else if (key === "Enter") {
       // let colorState: Colors | undefined = undefined;
+      let allGreen = true;
+
       if (currentCol === 5) {
         // const colorState : Colors = null;
         boardGame[currentRow].map((lett, index) => {
@@ -64,6 +68,7 @@ function Keyboard() {
             // colorState = "green";
             // console.log
           } else if (selectedWord.includes(lett.letter.toLowerCase())) {
+            allGreen = false;
             dispatch(
               setColorState({
                 row: currentRow,
@@ -85,8 +90,13 @@ function Keyboard() {
             // keyboardRow === 2 && updateRow2(lett.letter, "yellow");
             // keyboardRow === 3 && updateRow3(lett.letter, "yellow");
           } else {
+            allGreen = false;
             dispatch(
-              setColorState({ row: currentRow, col: index, colorState: "gray" })
+              setColorState({
+                row: currentRow,
+                col: index,
+                colorState: "gray",
+              })
             );
 
             dispatch(
@@ -105,7 +115,14 @@ function Keyboard() {
         });
 
         dispatch(setAttempt({ row: currentRow + 1, col: 0 }));
+
+        if (allGreen) {
+          dispatch(setResult({ res: "win" }));
+        } else if (currentRow === 5) {
+          dispatch(setResult({ res: "lose" }));
+        }
       }
+      // }
     } else {
       if (currentRow < 6) {
         if (currentCol < 5) {
@@ -165,84 +182,96 @@ function Keyboard() {
   // console.log(row1);
   return (
     <>
-      <div className="col-span-3 grid grid-rows-3 gap-2 content-center items-center mr-6">
-        <div className="grid grid-cols-10 gap-3 justify-around">
-          {row1.map((key, id) => {
-            return (
-              <div key={id}>
-                <Button
-                  color={
-                    key.colorState === "def"
-                      ? "white"
-                      : key.colorState === "green"
-                      ? "green"
-                      : key.colorState === "yellow"
-                      ? "yellow"
-                      : "red"
-                  }
-                  onClick={() => handleClick(key.letter, 1)}
-                >
-                  {key.letter}
-                </Button>
-              </div>
-            );
-          })}
-        </div>
+      {userAttempt.resultOfGame === "process" ? (
+        <div className="col-span-3 grid grid-rows-3 gap-2 content-center items-center mr-6">
+          <div className="grid grid-cols-10 gap-3 justify-around">
+            {row1.map((key, id) => {
+              return (
+                <div key={id}>
+                  <Button
+                    color={
+                      key.colorState === "def"
+                        ? "white"
+                        : key.colorState === "green"
+                        ? "green"
+                        : key.colorState === "yellow"
+                        ? "yellow"
+                        : "red"
+                    }
+                    onClick={() => handleClick(key.letter, 1)}
+                    disabled={key.colorState === "gray"}
+                  >
+                    {key.letter}
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
 
-        <div className=" grid grid-cols-9 justify-around">
-          {row2.map((key, id) => {
-            return (
-              <div key={id}>
-                <Button
-                  color={
-                    key.colorState === "def"
-                      ? "white"
-                      : key.colorState === "green"
-                      ? "green"
-                      : key.colorState === "yellow"
-                      ? "yellow"
-                      : "red"
-                  }
-                  onClick={() => handleClick(key.letter, 2)}
-                >
-                  {key.letter}
-                </Button>
-              </div>
-            );
-          })}
-        </div>
+          <div className=" grid grid-cols-9 justify-around">
+            {row2.map((key, id) => {
+              return (
+                <div key={id}>
+                  <Button
+                    color={
+                      key.colorState === "def"
+                        ? "white"
+                        : key.colorState === "green"
+                        ? "green"
+                        : key.colorState === "yellow"
+                        ? "yellow"
+                        : "red"
+                    }
+                    onClick={() => handleClick(key.letter, 2)}
+                    disabled={key.colorState === "gray"}
+                  >
+                    {key.letter}
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
 
-        <div className="grid grid-cols-9">
-          {/* <div className="flex justify-center w-auto">
-            <Button color="white">Delete</Button>
-          </div> */}
+          <div className="grid grid-cols-9">
+            {/* <div className="flex justify-center w-auto">
+                  <Button color="white">Delete</Button>
+                </div> */}
 
-          {row3.map((key, id) => {
-            return (
-              <div className="flex justify-center items-center w-auto" key={id}>
-                <Button
-                  color={
-                    key.colorState === "def"
-                      ? "white"
-                      : key.colorState === "green"
-                      ? "green"
-                      : key.colorState === "yellow"
-                      ? "yellow"
-                      : "red"
-                  }
-                  onClick={() => handleClick(key.letter, 3)}
+            {row3.map((key, id) => {
+              return (
+                <div
+                  className="flex justify-center items-center w-auto"
+                  key={id}
                 >
-                  {key.letter}
-                </Button>
-              </div>
-            );
-          })}
-          {/* 
-          <div className="flex justify-center w-auto">
-            <Button color="white">Enter</Button>
-          </div> */}
+                  <Button
+                    color={
+                      key.colorState === "def"
+                        ? "white"
+                        : key.colorState === "green"
+                        ? "green"
+                        : key.colorState === "yellow"
+                        ? "yellow"
+                        : "red"
+                    }
+                    onClick={() => handleClick(key.letter, 3)}
+                    disabled={key.colorState === "gray"}
+                  >
+                    {key.letter}
+                  </Button>
+                </div>
+              );
+            })}
+            {/* 
+                <div className="flex justify-center w-auto">
+                  <Button color="white">Enter</Button>
+                </div> */}
+          </div>
         </div>
-      </div>
+      ) : userAttempt.resultOfGame === "win" ? (
+        <WinCard></WinCard>
+      ) : (
+        <LoseCard></LoseCard>
+      )}
     </>
   );
 }
