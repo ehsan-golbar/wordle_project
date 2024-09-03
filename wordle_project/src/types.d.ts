@@ -1,4 +1,4 @@
-// type Colors = "green" | "yellow" | "gray" | "def";
+type Colors = "green" | "yellow" | "gray" | "def";
 
 // interface BoardCell {
 //   letter: string;
@@ -16,5 +16,9 @@ interface Attempt {
 
 type BoardCell = {
   letter: string;
-  colorState: string;
+  colorState: Colors;
 };
+
+interface SelectedWord {
+  selectedword: string;
+}

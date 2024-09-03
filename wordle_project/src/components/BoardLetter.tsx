@@ -12,6 +12,15 @@ function BoardLetter(props: MyComponentProps) {
         value={props.val.letter}
         variant="ghost"
         className=" justify-center h-12"
+        color={
+          props.val.colorState === "def"
+            ? "gray"
+            : props.val.colorState === "green"
+            ? "green"
+            : props.val.colorState === "yellow"
+            ? "yellow"
+            : "red"
+        }
       ></Chip>
     </>
   );

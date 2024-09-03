@@ -25,7 +25,7 @@ const boardGameSlice = createSlice({
     },
     setColorState: (
       state,
-      action: PayloadAction<{ row: number; col: number; colorState: string }>
+      action: PayloadAction<{ row: number; col: number; colorState: Colors }>
     ) => {
       const { row, col, colorState } = action.payload;
       if (state[row] && state[row][col]) {
@@ -33,6 +33,22 @@ const boardGameSlice = createSlice({
       }
     },
     resetBoard: () => initialState, // Reset the board to the initial state
+
+    // updateColorStateInRow: (
+    //   state,
+    //   action: PayloadAction<{
+    //     row: number;
+    //     targetLetter: string;
+    //     // newLetter: string;
+    //   }>
+    // ) => {
+    //   const { row, col} = action.payload;
+    //   if (state[row]) {
+    //     state[row] = state[row].map((cell) =>
+    //       cell.letter === targetLetter ? { ...cell, letter: newLetter } : cell
+    //     );
+    //   }
+    // },
   },
 });
 
