@@ -8,7 +8,7 @@ import { setAttempt } from "../store/slices/AttemptSlice";
 function Keyboard() {
   const row1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const row2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-  const row3 = ["Z", "X", "C", "V", "B", "N", "M"];
+  const row3 = ["Delete", "Z", "X", "C", "V", "B", "N", "M", "Enter"];
 
   const dispatch: AppDispatch = useDispatch();
   const userAttempt = useSelector((state: RootState) => state.userAttempt);
@@ -16,15 +16,29 @@ function Keyboard() {
   const handleClick = (key: string) => {
     const currentRow = userAttempt.row;
     const currentCol = userAttempt.col;
-    if (currentRow < 5) {
-      if (currentCol < 4) {
-        dispatch(setLetter({ row: currentRow, col: currentCol, letter: key }));
-        dispatch(setAttempt({ row: currentRow, col: currentCol + 1 }));
-      } else {
+
+    if (key === "Delete") {
+      if (currentCol > 0) {
+        dispatch(
+          setLetter({ row: currentRow, col: currentCol - 1, letter: "" })
+        );
+        dispatch(setAttempt({ row: currentRow, col: currentCol - 1 }));
+      }
+    } else if (key === "Enter") {
+      if (currentCol === 5) {
         dispatch(setAttempt({ row: currentRow + 1, col: 0 }));
       }
+    } else {
+      if (currentRow < 5) {
+        if (currentCol < 5) {
+          dispatch(
+            setLetter({ row: currentRow, col: currentCol, letter: key })
+          );
+          dispatch(setAttempt({ row: currentRow, col: currentCol + 1 }));
+        }
+      }
+      // dispatch(setLetter({ row: currentRow, col: currentCol, letter: key }));
     }
-    dispatch(setLetter({ row: currentRow, col: currentCol, letter: key }));
   };
 
   return (
@@ -55,9 +69,9 @@ function Keyboard() {
         </div>
 
         <div className="grid grid-cols-9">
-          <div className="flex justify-center w-auto">
+          {/* <div className="flex justify-center w-auto">
             <Button color="white">Delete</Button>
-          </div>
+          </div> */}
 
           {row3.map((key, id) => {
             return (
@@ -68,10 +82,10 @@ function Keyboard() {
               </div>
             );
           })}
-
+          {/* 
           <div className="flex justify-center w-auto">
             <Button color="white">Enter</Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
