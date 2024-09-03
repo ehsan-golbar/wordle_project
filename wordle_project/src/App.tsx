@@ -13,13 +13,7 @@ function App() {
       <div className="flex flex-col items-center w-full gap-10 bg-gray-900 h-screen overflow-y-auto">
         <Header></Header>
         <Board></Board>
-        <Button>Button</Button>
-        <Button>Button</Button>
-        <Button>Button</Button>
-        <Button>Button</Button>
-        <Button>Button</Button>
-        <Button>Button</Button>
-        <Button>Button</Button>
+        <Keyboard></Keyboard>
       </div>
     </>
   );
