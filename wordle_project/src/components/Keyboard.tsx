@@ -4,46 +4,15 @@ import { AppDispatch, RootState } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setColorState, setLetter } from "../store/slices/BoardCellsSlice";
 import { setAttempt } from "../store/slices/AttemptSlice";
+import { updateKeyboardColor } from "../store/slices/KeyboardSlice";
 
 function Keyboard() {
   // Updated rows with colorState: "def" added to each element
 
-  const [row1, setRow1] = useState<BoardCell[]>([
-    { letter: "Q", colorState: "def" },
-    { letter: "W", colorState: "def" },
-    { letter: "E", colorState: "def" },
-    { letter: "R", colorState: "def" },
-    { letter: "T", colorState: "def" },
-    { letter: "Y", colorState: "def" },
-    { letter: "U", colorState: "def" },
-    { letter: "I", colorState: "def" },
-    { letter: "O", colorState: "def" },
-    { letter: "P", colorState: "def" },
-  ]);
-
-  const [row2, setRow2] = useState<BoardCell[]>([
-    { letter: "A", colorState: "def" },
-    { letter: "S", colorState: "def" },
-    { letter: "D", colorState: "def" },
-    { letter: "F", colorState: "def" },
-    { letter: "G", colorState: "def" },
-    { letter: "H", colorState: "def" },
-    { letter: "J", colorState: "def" },
-    { letter: "K", colorState: "def" },
-    { letter: "L", colorState: "def" },
-  ]);
-
-  const [row3, setRow3] = useState<BoardCell[]>([
-    { letter: "Delete", colorState: "def" },
-    { letter: "Z", colorState: "def" },
-    { letter: "X", colorState: "def" },
-    { letter: "C", colorState: "def" },
-    { letter: "V", colorState: "def" },
-    { letter: "B", colorState: "def" },
-    { letter: "N", colorState: "def" },
-    { letter: "M", colorState: "def" },
-    { letter: "Enter", colorState: "def" },
-  ]);
+  const row1 = useSelector((state: RootState) => state.keyboard.row1);
+  const row2 = useSelector((state: RootState) => state.keyboard.row2);
+  const row3 = useSelector((state: RootState) => state.keyboard.row3);
+  // const dispatch = useDispatch();
 
   const dispatch: AppDispatch = useDispatch();
   const userAttempt = useSelector((state: RootState) => state.userAttempt);
@@ -63,11 +32,16 @@ function Keyboard() {
         dispatch(setAttempt({ row: currentRow, col: currentCol - 1 }));
       }
     } else if (key === "Enter") {
-      let colorState: Colors | undefined = undefined;
+      // let colorState: Colors | undefined = undefined;
       if (currentCol === 5) {
         // const colorState : Colors = null;
         boardGame[currentRow].map((lett, index) => {
-          if (selectedWord.charAt(index).toUpperCase() === lett.letter) {
+          if (
+            selectedWord.charAt(index).toUpperCase() ===
+            lett.letter.toUpperCase()
+          ) {
+            console.log("in this ");
+            console.log("board ", keyboardRow);
             dispatch(
               setColorState({
                 row: currentRow,
@@ -75,12 +49,20 @@ function Keyboard() {
                 colorState: "green",
               })
             );
-
-            setRow1((prevRow1) =>
-              prevRow1.map((cell) =>
-                cell.letter === key ? { ...cell, colorState: "green" } : cell
-              )
+            console.log("in this2 ");
+            console.log("board 2 ", keyboardRow);
+            dispatch(
+              updateKeyboardColor({
+                // rowIndex: keyboardRow,
+                letter: lett.letter,
+                newColorState: "green",
+              })
             );
+            // keyboardRow === 1 && updateRow1(lett.letter, "green");
+            // keyboardRow === 2 && updateRow2(lett.letter, "green");
+            // keyboardRow === 3 && updateRow3(lett.letter, "green");
+            // colorState = "green";
+            // console.log
           } else if (selectedWord.includes(lett.letter.toLowerCase())) {
             dispatch(
               setColorState({
@@ -89,32 +71,38 @@ function Keyboard() {
                 colorState: "yellow",
               })
             );
-            colorState = "yellow";
+
+            dispatch(
+              updateKeyboardColor({
+                // rowIndex: keyboardRow,
+                letter: lett.letter,
+                newColorState: "yellow",
+              })
+            );
+            // colorState = "yellow";
+
+            // keyboardRow === 1 && updateRow1(lett.letter, "yellow");
+            // keyboardRow === 2 && updateRow2(lett.letter, "yellow");
+            // keyboardRow === 3 && updateRow3(lett.letter, "yellow");
           } else {
             dispatch(
               setColorState({ row: currentRow, col: index, colorState: "gray" })
             );
 
-            colorState = "gray";
+            dispatch(
+              updateKeyboardColor({
+                // rowIndex: keyboardRow,
+                letter: lett.letter,
+                newColorState: "gray",
+              })
+            );
+
+            // keyboardRow === 1 && updateRow1(lett.letter, "gray");
+            // keyboardRow === 2 && updateRow2(lett.letter, "gray");
+            // keyboardRow === 3 && updateRow3(lett.letter, "gray");
+            // colorState = "gray";
           }
         });
-
-        // if (keyboardRow === 1) {
-        //   row1.map((item) => {
-        //     item.letter === key ? { ...item, colorState: colorState } : item;
-        //   });
-        //   console.log(row1);
-        // } else if (keyboardRow === 2) {
-        //   row2.map((item) => {
-        //     item.letter === key ? { ...item, colorState: colorState } : item;
-        //   });
-        //   console.log(row2);
-        // } else {
-        //   row3.map((item) => {
-        //     item.letter === key ? { ...item, colorState: colorState } : item;
-        //   });
-        //   console.log(row3);
-        // }
 
         dispatch(setAttempt({ row: currentRow + 1, col: 0 }));
       }
@@ -131,6 +119,45 @@ function Keyboard() {
       // dispatch(setLetter({ row: currentRow, col: currentCol, letter: key }));
     }
   };
+
+  // const updateRow1 = (key: string, color: Colors) => {
+  //   setRow1((prevRow1) =>
+  //     prevRow1.map((cell) => {
+  //       if (cell.letter.toUpperCase() === key) {
+  //         console.log("here");
+  //         return { ...cell, colorState: color };
+  //       } else {
+  //         return cell;
+  //       }
+  //     })
+  //   );
+  // };
+
+  // const updateRow2 = (key: string, color: Colors) => {
+  //   setRow2((prevRow2) =>
+  //     prevRow2.map((cell) => {
+  //       if (cell.letter.toUpperCase() === key) {
+  //         console.log("here");
+  //         return { ...cell, colorState: color };
+  //       } else {
+  //         return cell;
+  //       }
+  //     })
+  //   );
+  // };
+
+  // const updateRow3 = (key: string, color: Colors) => {
+  //   setRow3((prevRow3) =>
+  //     prevRow3.map((cell) => {
+  //       if (cell.letter.toUpperCase() === key) {
+  //         console.log("here");
+  //         return { ...cell, colorState: color };
+  //       } else {
+  //         return cell;
+  //       }
+  //     })
+  //   );
+  // };
 
   // useEffect(()=>{
 
@@ -167,7 +194,15 @@ function Keyboard() {
             return (
               <div key={id}>
                 <Button
-                  color="white"
+                  color={
+                    key.colorState === "def"
+                      ? "white"
+                      : key.colorState === "green"
+                      ? "green"
+                      : key.colorState === "yellow"
+                      ? "yellow"
+                      : "red"
+                  }
                   onClick={() => handleClick(key.letter, 2)}
                 >
                   {key.letter}
@@ -186,7 +221,15 @@ function Keyboard() {
             return (
               <div className="flex justify-center items-center w-auto" key={id}>
                 <Button
-                  color="white"
+                  color={
+                    key.colorState === "def"
+                      ? "white"
+                      : key.colorState === "green"
+                      ? "green"
+                      : key.colorState === "yellow"
+                      ? "yellow"
+                      : "red"
+                  }
                   onClick={() => handleClick(key.letter, 3)}
                 >
                   {key.letter}
