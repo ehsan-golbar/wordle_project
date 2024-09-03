@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Define the BoardCell type
-
-// Define the initial state for each row
 const initialState: {
   row1: BoardCell[];
   row2: BoardCell[];
@@ -44,7 +41,6 @@ const initialState: {
   ],
 };
 
-// Create a slice for the board rows
 const keyboardSlice = createSlice({
   name: "keyboard",
   initialState,
@@ -58,15 +54,9 @@ const keyboardSlice = createSlice({
     ) => {
       let found: boolean = false;
       const { letter, newColorState } = action.payload;
-      //   let targetRow;
-      //   console.log(rowIndex);
-      // Determine which row to update
 
-      console.log("here");
       state.row1 = state.row1.map((cell) => {
         if (cell.letter.toUpperCase() === letter.toUpperCase()) {
-          //   console.log("here");
-
           found = true;
 
           return { ...cell, colorState: newColorState };
@@ -76,14 +66,8 @@ const keyboardSlice = createSlice({
       });
 
       if (!found) {
-        //   else if (rowIndex === 2) {
         state.row2 = state.row2.map((cell) => {
-          if (
-            cell.letter.toUpperCase() === letter.toUpperCase()
-            // cell.colorState != "green"
-          ) {
-            // console.log("here");
-            console.log(cell.colorState);
+          if (cell.letter.toUpperCase() === letter.toUpperCase()) {
             found = true;
 
             return { ...cell, colorState: newColorState };
@@ -91,14 +75,10 @@ const keyboardSlice = createSlice({
             return cell;
           }
         });
-        //  else if (rowIndex === 3) {
+
         if (!found) {
           state.row3 = state.row3.map((cell) => {
-            if (
-              cell.letter.toUpperCase() === letter.toUpperCase()
-              //   cell.colorState !== "green"
-            ) {
-              console.log(cell.colorState);
+            if (cell.letter.toUpperCase() === letter.toUpperCase()) {
               return { ...cell, colorState: newColorState };
             } else {
               return cell;
@@ -106,20 +86,10 @@ const keyboardSlice = createSlice({
           });
         }
       }
-      //   }
-
-      //   if (targetRow) {
-      //     const cell = targetRow.find((cell) => cell.letter === letter);
-      //     if (cell) {
-      //       cell.colorState = newColorState;
-      //     }
-      //   }
     },
   },
 });
 
-// Export actions for use in components
 export const { updateKeyboardColor } = keyboardSlice.actions;
 
-// Export the reducer to be used in the store
 export default keyboardSlice.reducer;

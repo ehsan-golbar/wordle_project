@@ -6,7 +6,7 @@ import keyboardReducer from "./slices/KeyboardSlice";
 const store = configureStore({
   reducer: {
     boardGame: boardGameReducer,
-    userAttempt: userAttemptReducer, // Add the userAttempt reducer
+    userAttempt: userAttemptReducer,
     selectedWord: selectedWordReducer,
     keyboard: keyboardReducer,
   },

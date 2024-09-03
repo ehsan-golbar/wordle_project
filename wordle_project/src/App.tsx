@@ -9,18 +9,14 @@ import store, { RootState } from "./store/store";
 import { Provider, useSelector } from "react-redux";
 import WinCard from "./components/WinCard";
 import LoseCard from "./components/LoseCard";
-// import './App.css'
+import WordSelection from "./components/WordSelection";
 
 function App() {
-  // const userAttempt = useSelector((state: RootState) => state.userAttempt);
-  // const boardGame = useSelector((state: RootState) => state.boardGame);
-
-  // const [result, setResult] = useState<boolean>(true);
-
   return (
     <>
       <Provider store={store}>
-        <div className="flex flex-col items-center w-full gap-10 bg-gray-900 h-screen overflow-y-auto ">
+        <WordSelection></WordSelection>
+        <div className="flex flex-col items-center w-full gap-10 bg-gray-300 h-screen overflow-y-auto ">
           <div className="sticky top-0 left-1 z-10  w-full">
             <Header></Header>
           </div>

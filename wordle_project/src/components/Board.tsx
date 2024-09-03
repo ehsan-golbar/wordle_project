@@ -1,48 +1,8 @@
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Typography,
-  CardFooter,
-  Button,
-} from "@material-tailwind/react";
-import React from "react";
+import { Card, CardBody } from "@material-tailwind/react";
 import BoardLetter from "./BoardLetter";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 
-// let boardGame: BoardCell[] = [
-//   { letter: "", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-//   { letter: "?", colorState: "def" },
-// ];
 function Board() {
   const boardGame = useSelector((state: RootState) => state.boardGame);
   return (

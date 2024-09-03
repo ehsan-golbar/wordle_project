@@ -23,7 +23,6 @@ function HeaderItem() {
         className="p-1 font-medium"
       >
         <Button
-          // href="#"
           variant="text"
           className="flex items-center hover:text-blue-500 transition-colors"
           onClick={() => {
@@ -46,19 +45,6 @@ function HeaderItem() {
           Help
         </Button>
       </Typography>
-      {/* <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-medium"
-        >
-          <a
-            href="#"
-            className="flex items-center hover:text-blue-500 transition-colors"
-          >
-            Docs
-          </a>
-        </Typography> */}
     </ul>
   );
 }

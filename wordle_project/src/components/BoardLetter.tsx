@@ -1,5 +1,4 @@
 import { Chip } from "@material-tailwind/react";
-import React from "react";
 
 interface MyComponentProps {
   val: BoardCell;

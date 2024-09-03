@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Define the initial state of the boardGame as a 2D array (6 rows, 5 columns)
 const initialState: BoardCell[][] = Array(6)
   .fill(null)
   .map(() =>
@@ -9,7 +8,6 @@ const initialState: BoardCell[][] = Array(6)
       .map(() => ({ letter: "", colorState: "def" }))
   );
 
-// Create a slice for the boardGame
 const boardGameSlice = createSlice({
   name: "boardGame",
   initialState,
@@ -32,28 +30,10 @@ const boardGameSlice = createSlice({
         state[row][col].colorState = colorState;
       }
     },
-    resetBoard: () => initialState, // Reset the board to the initial state
-
-    // updateColorStateInRow: (
-    //   state,
-    //   action: PayloadAction<{
-    //     row: number;
-    //     targetLetter: string;
-    //     // newLetter: string;
-    //   }>
-    // ) => {
-    //   const { row, col} = action.payload;
-    //   if (state[row]) {
-    //     state[row] = state[row].map((cell) =>
-    //       cell.letter === targetLetter ? { ...cell, letter: newLetter } : cell
-    //     );
-    //   }
-    // },
+    resetBoard: () => initialState,
   },
 });
 
-// Export actions for use in components
 export const { setLetter, setColorState, resetBoard } = boardGameSlice.actions;
 
-// Export the reducer to be used in the store
 export default boardGameSlice.reducer;
